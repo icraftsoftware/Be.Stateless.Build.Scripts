@@ -1,0 +1,54 @@
+﻿<!-- see https://docs.microsoft.com/en-us/visualstudio/msbuild/customize-your-build -->
+<!--
+
+  Copyright © 2012 - 2020 François Chabot
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+
+-->
+<Project>
+
+  <PropertyGroup>
+    <DelaySign Condition=" '$(DelaySign)' == '' ">true</DelaySign>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile Condition=" '$(DelaySign)' == 'true'  And '$(AssemblyOriginatorKeyFile)' == '' ">..\..\build\be.stateless.public.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile Condition=" '$(DelaySign)' == 'false' And '$(AssemblyOriginatorKeyFile)' == '' ">..\..\build\be.stateless.snk</AssemblyOriginatorKeyFile>
+
+    <Major Condition=" '$(Major)' == '' ">2</Major>
+    <Minor Condition=" '$(Minor)' == '' ">0</Minor>
+    <Build Condition=" '$(Build)' == '' ">$([System.DateTime]::Now.ToString("yy"))$([System.DateTime]::Now.DayOfYear.ToString("000"))</Build>
+    <Revision Condition=" '$(Revision)' == '' ">0</Revision>
+
+    <!-- https://github.com/dotnet/sdk/issues/2 -->
+    <AssemblyVersion>$(Major).$(Minor).0.0</AssemblyVersion>
+    <Authors>François Chabot</Authors>
+    <Company>be.stateless</Company>
+    <Copyright>Copyright © 2012 - $([System.DateTime]::Now.Year) be.stateless. All rights reserved.</Copyright>
+    <FileVersion>$(Major).$(Minor).$(Build).$(Revision)</FileVersion>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <PackageVersion>$(Major).$(Minor).$(Build).$(Revision)</PackageVersion>
+    <Product>.NET Factory ($(Configuration) Build)</Product>
+    <!--<VersionPrefix>$(Major).$(Minor).$(Build).$(Revision)</VersionPrefix>-->
+    <Version>$(Major).$(Minor).$(Build).$(Revision)</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\build\be.stateless.public.snk" Link="be.stateless.public.snk" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
+</Project>
