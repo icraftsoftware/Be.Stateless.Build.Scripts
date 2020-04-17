@@ -21,9 +21,11 @@
   <PropertyGroup>
     <DelaySign Condition=" '$(DelaySign)' == '' ">true</DelaySign>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile Condition=" '$(DelaySign)' == 'true'  And '$(AssemblyOriginatorKeyFile)' == '' ">..\..\build\be.stateless.public.snk</AssemblyOriginatorKeyFile>
-    <AssemblyOriginatorKeyFile Condition=" '$(DelaySign)' == 'false' And '$(AssemblyOriginatorKeyFile)' == '' ">..\..\build\be.stateless.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile Condition=" '$(AssemblyOriginatorKeyFile)' == '' And '$(DelaySign)' == 'true' ">..\..\.build\be.stateless.public.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile Condition=" '$(AssemblyOriginatorKeyFile)' == '' And '$(DelaySign)' == 'false' ">..\..\.build\be.stateless.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
 
+  <PropertyGroup>
     <Major Condition=" '$(Major)' == '' ">2</Major>
     <Minor Condition=" '$(Minor)' == '' ">0</Minor>
     <Build Condition=" '$(Build)' == '' ">$([System.DateTime]::Now.ToString("yy"))$([System.DateTime]::Now.DayOfYear.ToString("000"))</Build>
@@ -44,7 +46,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\build\be.stateless.public.snk" Link="be.stateless.public.snk" />
+    <None Include="..\..\.build\be.stateless.public.snk" Link="be.stateless.public.snk" />
   </ItemGroup>
 
   <ItemGroup>
