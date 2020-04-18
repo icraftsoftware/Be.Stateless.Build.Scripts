@@ -42,9 +42,14 @@ Clear-Host
 $version = New-Object -TypeName System.Version -ArgumentList $Major, $Minor, $Build, $Revision
 
 # build and package solution
-#https://docs.microsoft.com/en-us/nuget/create-packages/symbol-packages-snupkg
-dotnet build -p:DelaySign=false`;Configuration=Debug`;Major=$($version.Major)`;Minor=$($Version.Minor)`;Build=$($Version.Build)`;Revision=$($version.Revision)
-dotnet build -p:DelaySign=false`;Configuration=Release`;Major=$($version.Major)`;Minor=$($Version.Minor)`;Build=$($Version.Build)`;Revision=$($version.Revision)`;GeneratePackageOnBuild=true`;NoWarn=1591
+if (Get-ChildItem -Path *.sln | Where-Object Name -match 'Be\.Stateless\.BizTalk\.(Orchestrations|Pipelines|Schemas|Transforms)\.sln') {
+    MSBuild.exe /property:DelaySign=false`;Configuration=Debug`;Major=$($version.Major)`;Minor=$($Version.Minor)`;Build=$($Version.Build)`;Revision=$($version.Revision)
+    MSBuild.exe /property:DelaySign=false`;Configuration=Release`;Major=$($version.Major)`;Minor=$($Version.Minor)`;Build=$($Version.Build)`;Revision=$($version.Revision)`;GeneratePackageOnBuild=true`;NoWarn=1591
+}
+else {
+    dotnet build -p:DelaySign=false`;Configuration=Debug`;Major=$($version.Major)`;Minor=$($Version.Minor)`;Build=$($Version.Build)`;Revision=$($version.Revision)
+    dotnet build -p:DelaySign=false`;Configuration=Release`;Major=$($version.Major)`;Minor=$($Version.Minor)`;Build=$($Version.Build)`;Revision=$($version.Revision)`;GeneratePackageOnBuild=true`;NoWarn=1591
+}
 
 # generate build.local.ps1 script file that allows to redo a build and package locally wihtout altering the build version number
 $path = Split-Path $script:MyInvocation.MyCommand.Path
