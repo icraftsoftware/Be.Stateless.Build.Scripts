@@ -2,3 +2,5 @@
 .vs/
 # Be.Stateless private signing key
 be.stateless.snk
+# rebuild script produced by build.ps1 to build with exact same version
+build.local.ps1
