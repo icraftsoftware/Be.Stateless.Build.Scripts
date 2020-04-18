@@ -21,8 +21,8 @@
   <PropertyGroup>
     <DelaySign Condition=" '$(DelaySign)' == '' ">true</DelaySign>
     <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile Condition=" '$(AssemblyOriginatorKeyFile)' == '' And '$(DelaySign)' == 'true' ">..\..\.build\be.stateless.public.snk</AssemblyOriginatorKeyFile>
-    <AssemblyOriginatorKeyFile Condition=" '$(AssemblyOriginatorKeyFile)' == '' And '$(DelaySign)' == 'false' ">..\..\.build\be.stateless.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile Condition=" '$(AssemblyOriginatorKeyFile)' == '' And '$(DelaySign)' == 'true' ">$(MSBuildThisFileDirectory)be.stateless.public.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile Condition=" '$(AssemblyOriginatorKeyFile)' == '' And '$(DelaySign)' == 'false' ">C:\Files\Projects\.AssemblyOriginatorKeyFile\be.stateless.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -46,7 +46,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="..\..\.build\be.stateless.public.snk" Link="be.stateless.public.snk" />
+    <None Include="$(MSBuildThisFileDirectory)be.stateless.public.snk" Link="be.stateless.public.snk" />
   </ItemGroup>
 
   <ItemGroup>
