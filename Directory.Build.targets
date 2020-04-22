@@ -17,4 +17,10 @@
 
 -->
 <Project>
+  <ItemGroup>
+    <PackageReference Update="BizTalk.Server.2020.Runtime">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
 </Project>
