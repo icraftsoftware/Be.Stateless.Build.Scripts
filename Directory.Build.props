@@ -43,6 +43,7 @@
     <Product>.NET Factory ($(Configuration) Build)</Product>
     <!--<VersionPrefix>$(Major).$(Minor).$(Build).$(Revision)</VersionPrefix>-->
     <Version>$(Major).$(Minor).$(Build).$(Revision)</Version>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
