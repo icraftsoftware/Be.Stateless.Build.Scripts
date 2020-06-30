@@ -25,7 +25,7 @@ param(
     $Path,
 
     [Parameter(Mandatory = $true)]
-    [SecureString]
+    [string]
     $NuGetApiKey
 )
 Set-StrictMode -Version Latest
