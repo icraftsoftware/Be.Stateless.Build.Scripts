@@ -32,5 +32,5 @@ $manifest = Get-ModuleManifest -Path $Path -Verbose | Import-PowerShellDataFile
 $manifest.RequiredModules | ForEach-Object -Process {
     $moduleName = if ($_ -is [hashtable]) { $_.ModuleName } else { $_ }
     Write-Host "Installing module $moduleName"
-    Install-Module -Name $moduleName -Scope CurrentUser -SkipPublisherCheck -Force
+    Install-Module -Name $moduleName -Scope CurrentUser -AllowClobber -SkipPublisherCheck -Force
 }
