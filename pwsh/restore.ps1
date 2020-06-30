@@ -30,7 +30,7 @@ Set-StrictMode -Version Latest
 $Path = Resolve-Path $Path -Verbose -ErrorAction Stop
 $manifest = Get-ModuleManifest -Path $Path -Verbose | Import-PowerShellDataFile
 $manifest.RequiredModules | ForEach-Object -Process {
-    $moduleName = if ($_ -is [hastable]) { $_.ModuleName } else { $_ }
+    $moduleName = if ($_ -is [hashtable]) { $_.ModuleName } else { $_ }
     Write-Host "Installing module $moduleName"
     Install-Module -Name $moduleName -Scope CurrentUser -SkipPublisherCheck -Force
 }
