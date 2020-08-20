@@ -18,7 +18,7 @@
 -->
 <Project>
   <ItemGroup>
-    <PackageReference Update="BizTalk.Server.2020.Runtime;BizTalk.Server.2020.Utilities">
+    <PackageReference Update="BizTalk.Server.2020.Runtime;BizTalk.Server.2020.Runtime.Adapters;BizTalk.Server.2020.Utilities">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
