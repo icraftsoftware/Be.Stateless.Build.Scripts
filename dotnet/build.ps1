@@ -42,7 +42,8 @@ Clear-Host
 $version = New-Object -TypeName System.Version -ArgumentList $Major, $Minor, $Build, $Revision
 
 # build and package solution
-if (Get-ChildItem -Path *.sln | Where-Object Name -match 'Be\.Stateless\.BizTalk\.(Orchestrations|Pipelines|Schemas|Transforms)\.sln') {
+if (Get-ChildItem -Path *.sln | Where-Object Name -match 'Be\.Stateless\.BizTalk\.(Dummies|Orchestrations|Pipelines|Schemas|Transforms)\.sln') {
+    MSBuild.exe /Target:restore
     MSBuild.exe /property:DelaySign=false`;Configuration=Debug`;Major=$($version.Major)`;Minor=$($Version.Minor)`;Build=$($Version.Build)`;Revision=$($version.Revision)
     MSBuild.exe /property:DelaySign=false`;Configuration=Release`;Major=$($version.Major)`;Minor=$($Version.Minor)`;Build=$($Version.Build)`;Revision=$($version.Revision)`;GeneratePackageOnBuild=true`;NoWarn=1591
 }
