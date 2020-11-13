@@ -29,6 +29,10 @@ param(
 
     [Parameter(Mandatory = $false)]
     [int]
+    $PackagePatch = 0,
+
+    [Parameter(Mandatory = $false)]
+    [int]
     $Build = ('{0:yy}{1:000}' -f [datetime]::Today, [datetime]::Today.DayOfYear),
 
     [Parameter(Mandatory = $false)]
@@ -44,12 +48,12 @@ $version = New-Object -TypeName System.Version -ArgumentList $Major, $Minor, $Bu
 # build and package solution
 if (Get-ChildItem -Path *.sln | Where-Object Name -match 'Be\.Stateless\.BizTalk\.(Dummies|Orchestrations|Pipelines|Schemas|Transforms)\.sln') {
     MSBuild.exe /Target:restore
-    MSBuild.exe /property:DelaySign=false`;Configuration=Debug`;Major=$($version.Major)`;Minor=$($Version.Minor)`;Build=$($Version.Build)`;Revision=$($version.Revision)
-    MSBuild.exe /property:DelaySign=false`;Configuration=Release`;Major=$($version.Major)`;Minor=$($Version.Minor)`;Build=$($Version.Build)`;Revision=$($version.Revision)`;GeneratePackageOnBuild=true`;NoWarn=1591
+    MSBuild.exe /property:DelaySign=false`;Configuration=Debug`;Major=$($version.Major)`;Minor=$($version.Minor)`;PackagePatch=$($PackagePatch)`;Build=$($version.Build)`;Revision=$($version.Revision)
+    MSBuild.exe /property:DelaySign=false`;Configuration=Release`;Major=$($version.Major)`;Minor=$($version.Minor)`;PackagePatch=$($PackagePatch)`;Build=$($version.Build)`;Revision=$($version.Revision)`;GeneratePackageOnBuild=true`;NoWarn=1591
 }
 else {
-    dotnet build -p:DelaySign=false`;Configuration=Debug`;Major=$($version.Major)`;Minor=$($Version.Minor)`;Build=$($Version.Build)`;Revision=$($version.Revision)
-    dotnet build -p:DelaySign=false`;Configuration=Release`;Major=$($version.Major)`;Minor=$($Version.Minor)`;Build=$($Version.Build)`;Revision=$($version.Revision)`;GeneratePackageOnBuild=true`;NoWarn=1591
+    dotnet build -p:DelaySign=false`;Configuration=Debug`;Major=$($version.Major)`;Minor=$($version.Minor)`;PackagePatch=$($PackagePatch)`;Build=$($version.Build)`;Revision=$($version.Revision)
+    dotnet build -p:DelaySign=false`;Configuration=Release`;Major=$($version.Major)`;Minor=$($version.Minor)`;PackagePatch=$($PackagePatch)`;Build=$($version.Build)`;Revision=$($version.Revision)`;GeneratePackageOnBuild=true`;NoWarn=1591
 }
 
 # generate build.local.ps1 script file that allows to redo a build and package locally wihtout altering the build version number

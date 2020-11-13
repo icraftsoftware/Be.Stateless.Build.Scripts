@@ -30,6 +30,7 @@
     <Minor Condition=" '$(Minor)' == '' ">0</Minor>
     <Build Condition=" '$(Build)' == '' ">$([System.DateTime]::Now.ToString("yy"))$([System.DateTime]::Now.DayOfYear.ToString("000"))</Build>
     <Revision Condition=" '$(Revision)' == '' ">0</Revision>
+    <PackagePatch Condition=" '$(PackagePatch)' == '' ">0</PackagePatch>
 
     <!-- https://github.com/dotnet/sdk/issues/2 -->
     <AssemblyVersion>$(Major).$(Minor).0.0</AssemblyVersion>
@@ -37,12 +38,13 @@
     <Company>be.stateless</Company>
     <Copyright>Copyright © 2012 - $([System.DateTime]::Now.Year) be.stateless. All rights reserved.</Copyright>
     <FileVersion>$(Major).$(Minor).$(Build).$(Revision)</FileVersion>
+    <InformationalVersion>$(Major).$(Minor).$(PackagePatch)</InformationalVersion>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageVersion>$(Major).$(Minor).$(Build).$(Revision)</PackageVersion>
+    <PackageVersion>$(Major).$(Minor).$(PackagePatch)</PackageVersion>
     <Product>.NET Factory ($(Configuration) Build)</Product>
     <!--<VersionPrefix>$(Major).$(Minor).$(Build).$(Revision)</VersionPrefix>-->
-    <Version>$(Major).$(Minor).$(Build).$(Revision)</Version>
+    <!-- <Version>$(Major).$(Minor).$(Build).$(Revision)</Version> -->
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 
