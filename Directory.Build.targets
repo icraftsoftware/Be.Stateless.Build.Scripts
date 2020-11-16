@@ -23,4 +23,13 @@
       <IncludeAssets>runtime; compile; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+
+  <!-- https://github.com/microsoft/MSBuildSdks/tree/master/src/NoTargets -->
+  <Target Name="CopyProjectReferenceOutputs" AfterTargets="Build" Condition=" '$(UsingMicrosoftNoTargetsSdk)'=='true' ">
+    <Message Text="Copying project references to package output directory..." Importance="High"/>
+    <Copy
+      SourceFiles="@(ProjectReference -> '%(RelativeDir)bin\$(Configuration)\$(TargetFramework)\%(Filename).dll')"
+      DestinationFolder="$(OutDir)">
+    </Copy>
+  </Target>
 </Project>
