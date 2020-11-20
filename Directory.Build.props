@@ -17,43 +17,49 @@
 
 -->
 <Project>
+    <PropertyGroup>
+        <DelaySign Condition=" '$(AssemblyOriginatorKeyFile)' == '' And '$(DelaySign)' == '' ">true</DelaySign>
+        <SignAssembly>true</SignAssembly>
+        <AssemblyOriginatorKeyFile Condition=" '$(AssemblyOriginatorKeyFile)' == '' And '$(DelaySign)' == 'true' ">$(MSBuildThisFileDirectory)be.stateless.public.snk</AssemblyOriginatorKeyFile>
+        <AssemblyOriginatorKeyFile Condition=" '$(AssemblyOriginatorKeyFile)' == '' And '$(DelaySign)' == 'false' ">C:\Files\Projects\.AssemblyOriginatorKeyFile\be.stateless.snk</AssemblyOriginatorKeyFile>
+    </PropertyGroup>
 
-  <PropertyGroup>
-    <DelaySign Condition=" '$(AssemblyOriginatorKeyFile)' == '' And '$(DelaySign)' == '' ">true</DelaySign>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile Condition=" '$(AssemblyOriginatorKeyFile)' == '' And '$(DelaySign)' == 'true' ">$(MSBuildThisFileDirectory)be.stateless.public.snk</AssemblyOriginatorKeyFile>
-    <AssemblyOriginatorKeyFile Condition=" '$(AssemblyOriginatorKeyFile)' == '' And '$(DelaySign)' == 'false' ">C:\Files\Projects\.AssemblyOriginatorKeyFile\be.stateless.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
+    <PropertyGroup>
+        <Major Condition=" '$(Major)' == '' ">2</Major>
+        <Minor Condition=" '$(Minor)' == '' ">0</Minor>
+        <Patch Condition=" '$(Patch)' == '' ">0
+        </PackagePatch>
+        <Build Condition=" '$(Build)' == '' ">$([System.DateTime]::Now.ToString("yy"))$([System.DateTime]::Now.DayOfYear.ToString("000"))</Build>
+        <Revision Condition=" '$(Revision)' == '' ">0</Revision>
 
-  <PropertyGroup>
-    <Major Condition=" '$(Major)' == '' ">2</Major>
-    <Minor Condition=" '$(Minor)' == '' ">0</Minor>
-    <Build Condition=" '$(Build)' == '' ">$([System.DateTime]::Now.ToString("yy"))$([System.DateTime]::Now.DayOfYear.ToString("000"))</Build>
-    <Revision Condition=" '$(Revision)' == '' ">0</Revision>
-    <PackagePatch Condition=" '$(PackagePatch)' == '' ">0</PackagePatch>
+        <!-- https://github.com/dotnet/sdk/issues/2 -->
+        <AssemblyVersion>$(Major).$(Minor).0.0</AssemblyVersion>
+        <Authors>François Chabot</Authors>
+        <Company>be.stateless</Company>
+        <Copyright>Copyright © 2012 - $([System.DateTime]::Now.Year) be.stateless. All rights reserved.</Copyright>
+        <FileVersion>$(Major).$(Minor).$(Build).$(Revision)</FileVersion>
+        <InformationalVersion>$(Major).$(Minor).$(Patch)</InformationalVersion>
+        <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <Product>.NET Factory ($(Configuration) Build)</Product>
+        <!--<VersionPrefix>$(Major).$(Minor).$(Build).$(Revision)</VersionPrefix>-->
+        <!--<Version>$(Major).$(Minor).$(Build).$(Revision)</Version>-->
+        <LangVersion>8.0</LangVersion>
+    </PropertyGroup>
 
-    <!-- https://github.com/dotnet/sdk/issues/2 -->
-    <AssemblyVersion>$(Major).$(Minor).0.0</AssemblyVersion>
-    <Authors>François Chabot</Authors>
-    <Company>be.stateless</Company>
-    <Copyright>Copyright © 2012 - $([System.DateTime]::Now.Year) be.stateless. All rights reserved.</Copyright>
-    <FileVersion>$(Major).$(Minor).$(Build).$(Revision)</FileVersion>
-    <InformationalVersion>$(Major).$(Minor).$(PackagePatch)</InformationalVersion>
-    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <PackageVersion>$(Major).$(Minor).$(PackagePatch)</PackageVersion>
-    <Product>.NET Factory ($(Configuration) Build)</Product>
-    <!--<VersionPrefix>$(Major).$(Minor).$(Build).$(Revision)</VersionPrefix>-->
-    <!-- <Version>$(Major).$(Minor).$(Build).$(Revision)</Version> -->
-    <LangVersion>8.0</LangVersion>
-  </PropertyGroup>
+    <PropertyGroup Condition="'$(TF_BUILD)' == 'true'">
+        <PackageVersion>$(Major).$(Minor).$(Patch)</PackageVersion>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <None Include="$(MSBuildThisFileDirectory)be.stateless.public.snk" Link="be.stateless.public.snk" />
-  </ItemGroup>
+    <PropertyGroup Condition="'$(TF_BUILD)' != 'true'">
+        <PackageVersion>$(Major).$(Minor).$(Patch)-local.release.$(Build).$(Revision)</PackageVersion>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Include="$(MSBuildThisFileDirectory)be.stateless.public.snk" Link="be.stateless.public.snk" />
+    </ItemGroup>
 
+    <ItemGroup>
+        <Folder Include="Properties\" />
+    </ItemGroup>
 </Project>
