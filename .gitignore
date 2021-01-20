@@ -1,0 +1,6 @@
+﻿# Visual Studio 2015/2017 cache/options directory
+.vs/
+# Be.Stateless private signing key
+be.stateless.snk
+# rebuild script produced by build.ps1 to build with exact same version
+build.local.ps1
