@@ -1,7 +1,7 @@
 ﻿<!-- see https://docs.microsoft.com/en-us/visualstudio/msbuild/customize-your-build -->
 <!--
 
-  Copyright © 2012 - 2020 François Chabot
+  Copyright © 2012 - 2021 François Chabot
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -25,13 +25,12 @@
     </PackageReference>
   </ItemGroup>
 
-  <!-- https://github.com/microsoft/MSBuildSdks/tree/master/src/NoTargets -->
-  <Target Name="CopyProjectReferenceOutputs" AfterTargets="Build" Condition=" '$(UsingMicrosoftNoTargetsSdk)'=='true' ">
-    <Message Text="Copying project references to package output directory..." Importance="High"/>
-    <Copy
-      SourceFiles="@(ProjectReference -> '%(RelativeDir)bin\$(Configuration)\$(TargetFramework)\%(Filename).dll')"
-      DestinationFolder="$(OutDir)">
-    </Copy>
-  </Target>
+  <ItemGroup>
+    <!-- https://github.com/microsoft/MSBuildSdks/tree/master/src/NoTargets -->
+    <ProjectReference Update="@(ProjectReference)" Condition=" '$(UsingMicrosoftNoTargetsSdk)'=='true' ">
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <ExcludeAssets>runtime</ExcludeAssets>
+    </ProjectReference>
+  </ItemGroup>
 
 </Project>
