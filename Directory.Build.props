@@ -43,7 +43,7 @@
     <Product Condition="'$(TF_BUILD)' == 'true'">.NET Factory ($(Configuration) Build)</Product>
     <!--<VersionPrefix>$(Major).$(Minor).$(Build).$(Revision)</VersionPrefix>-->
     <Version>$(Major).$(Minor).$(Build).$(Revision)</Version>
-    <LangVersion>8.0</LangVersion>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <!-- https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml#system-variables -->

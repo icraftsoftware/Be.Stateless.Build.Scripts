@@ -30,20 +30,22 @@ function Get-DeploymentManifest {
     $candidateManifestFiles = @(Get-ChildItem -Path . -Filter Manifest.ps1 -Recurse | Where-Object -FilterScript { $_.FullName -match "\\bin\\$Configuration\\" })
     switch ($candidateManifestFiles.Length) {
         0 {
-            throw 'No Manifest.ps1 found.'
+            throw 'No deployment manifest found.'
         }
         1 {
-            Write-Verbose -Message 'One single Manifest.ps1 found.'
-            $candidateManifestFiles[0]
+            $manifestFile = $candidateManifestFiles[0]
+            Write-Host -Object "One deployment manifest found: $($manifestFile.FullName | Resolve-Path -Relative)"
         }
         { $_ -eq 2 -and !$PSBoundParameters.ContainsKey('Configuration') } {
-            Write-Verbose -Message 'Two Manifest.ps1 found; giving precedence to Release one as Configuration has not been given.'
-            $candidateManifestFiles | Where-Object -FilterScript { $_.FullName -match '\\bin\\Release\\' }
+            $manifestFile = $candidateManifestFiles | Where-Object -FilterScript { $_.FullName -match '\\bin\\Release\\' }
+            Write-Host -Object "Both debug & release deployment manifests found; picking: $($manifestFile.FullName | Resolve-Path -Relative)"
         }
         default {
-            $candidateManifestFiles | ForEach-Object FullName | Resolve-Path -Relative | Write-Verbose
-            throw 'Multiple Manifest.ps1 files found.'
+            Write-Verbose -Message 'Found multiple deployment manifests:'
+            $candidateManifestFiles.FullName | Resolve-Path -Relative | Write-Verbose
+            throw 'Multiple deployment manifests found.'
         }
     }
+    $manifestFile
 }
 

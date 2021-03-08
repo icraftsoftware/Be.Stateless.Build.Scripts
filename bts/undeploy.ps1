@@ -19,15 +19,20 @@
 [CmdletBinding()]
 [OutputType([void])]
 param(
-    [Parameter()]
-    [ValidateSet('DEV', 'BLD', 'ACC', 'PRD')]
+    [Parameter(Mandatory = $false)]
+    [ValidateSet('DEV', 'BLD', 'ACC', 'PRE', 'PRD')]
     [string]
     $TargetEnvironment = 'DEV',
 
-    [Parameter()]
+    [Parameter(Mandatory = $false)]
     [ValidateSet('Debug', 'Release')]
     [string]
-    $Configuration = '(Debug|Release)'
+    $Configuration
+
+    # TODO re-expose manifest's param as dynamic params
+
+    # TODO -Skip switches : ?? re-expose Install-BizTalkPackage's param as dynamic params
+
 )
 Set-StrictMode -Version Latest
 . $PSScriptRoot\manifest-functions.ps1
@@ -35,9 +40,5 @@ Set-StrictMode -Version Latest
 $arguments = @{ }
 if ($PSBoundParameters.ContainsKey('Configuration')) { $arguments.Configuration = $Configuration }
 $manifestFile = Get-DeploymentManifest @arguments
-
-#Import-Module Resource.Manifest -Force
-$manifest = . $manifestFile.FullName -TargetEnvironment $TargetEnvironment -ErrorAction Stop
-
-#Import-Module BizTalk.Deployment -Force
-Uninstall-BizTalkPackage -TargetEnvironment $TargetEnvironment -Manifest $manifest -InformationAction Continue -Verbose
+$manifest = . $manifestFile.FullName -ErrorAction Stop
+Uninstall-BizTalkPackage -TargetEnvironment $TargetEnvironment -Manifest $manifest

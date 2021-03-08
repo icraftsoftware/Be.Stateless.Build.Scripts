@@ -27,7 +27,7 @@ function Get-ModuleManifest {
         [string]
         $Path
     )
-    $moduleManifestFile = Get-ChildItem -Path $Path -Filter *.psd1 -File -Recurse -Depth 1
+    $moduleManifestFile = Get-ChildItem -Path $Path -Filter *.psd1 -Exclude *.Messages.psd1 -File -Recurse -Depth 1
     if ($moduleManifestFile -isnot [System.IO.FileInfo]) { throw "Unique module manifest file could not be found in '$Path'." }
     Write-Verbose "Found module manifest file '$($moduleManifestFile.FullName)'."
     $moduleManifestFile
