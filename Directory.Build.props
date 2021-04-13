@@ -60,4 +60,9 @@
     <Folder Include="Properties\" />
   </ItemGroup>
 
+  <!-- Skip the .pdb file for deployment project to avoid error during publish with no build -->
+  <PropertyGroup Condition=" '$(UsingMicrosoftNoTargetsSdk)'=='true' ">
+		<CopyOutputSymbolsToPublishDirectory>false</CopyOutputSymbolsToPublishDirectory>
+	</PropertyGroup>
+
 </Project>
