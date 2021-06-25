@@ -71,6 +71,6 @@ Update-ModuleVersion -Path $moduleManifestStagingFile.FullName -Version $ModuleV
 
 $certificate = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2 -ArgumentList $CertificateFilePath, $CertificatePassword, 'DefaultKeySet'
 Get-ChildItem -Path $moduleStagingPath -Include *.ps*1 -Recurse |
-    Set-AuthenticodeSignature -Certificate $certificate -TimestampServer "http://timestamp.verisign.com/scripts/timstamp.dll" -IncludeChain Signer
+    Set-AuthenticodeSignature -Certificate $certificate
 
 Write-Host "Module has been staged in '$moduleStagingPath'."
