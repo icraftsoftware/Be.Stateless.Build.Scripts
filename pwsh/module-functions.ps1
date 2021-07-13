@@ -23,7 +23,7 @@ function Get-ModuleManifest {
     [OutputType([System.IO.FileInfo])]
     param(
         [Parameter(Mandatory = $true)]
-        [ValidateScript( { Test-Path -Path $_ -PathType Container })]
+        [ValidateScript( { Test-Path -Path $_ -PathType Container } )]
         [string]
         $Path
     )
@@ -38,7 +38,7 @@ function Update-ModuleVersion {
     [OutputType([void])]
     param(
         [Parameter(Mandatory = $true)]
-        [ValidateScript( { Test-Path -Path $_ -PathType Leaf })]
+        [ValidateScript( { Test-Path -Path $_ -PathType Leaf } )]
         [string]
         $Path,
 

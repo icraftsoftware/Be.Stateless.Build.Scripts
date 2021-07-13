@@ -20,12 +20,12 @@
 [OutputType([void])]
 param(
     [Parameter(Mandatory = $true)]
-    [ValidateScript( { Test-Path -Path $_ -PathType Container })]
+    [ValidateScript( { Test-Path -Path $_ -PathType Container } )]
     [string]
     $Path,
 
     [Parameter(Mandatory = $true)]
-    [ValidateScript( { Test-Path -Path $_ -PathType Container })]
+    [ValidateScript( { Test-Path -Path $_ -PathType Container } )]
     [string]
     $Destination,
 
@@ -34,7 +34,7 @@ param(
     $ModuleVersion,
 
     [Parameter(Mandatory = $true)]
-    [ValidateScript( { Test-Path -Path $_ -PathType Leaf })]
+    [ValidateScript( { Test-Path -Path $_ -PathType Leaf } )]
     [string]
     $CertificateFilePath,
 

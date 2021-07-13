@@ -20,7 +20,7 @@
 [OutputType([void])]
 param(
     [Parameter(Mandatory = $true)]
-    [ValidateScript( { Test-Path -Path $_ -PathType Container })]
+    [ValidateScript( { Test-Path -Path $_ -PathType Container } )]
     [string]
     $Path
 )
