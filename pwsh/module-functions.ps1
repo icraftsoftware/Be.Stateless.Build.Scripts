@@ -1,6 +1,6 @@
 #region Copyright & License
 
-# Copyright © 2012 - 2020 François Chabot
+# Copyright © 2012 - 2021 François Chabot
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -46,7 +46,9 @@ function Update-ModuleVersion {
         [version]
         $Version
     )
-    $pattern = "(ModuleVersion\s*=\s*['`"])\d+(?:\.\d+){1,3}(['`"])"
+    $manifest = Import-PowerShellDataFile -Path $Path
+    $versionPattern = [regex]::Escape($manifest.ModuleVersion)
+    $pattern = "(ModuleVersion\s*=\s*['`"])$versionPattern(['`"])"
     (Get-Content -Path $Path -Encoding UTF8 -Raw) -creplace $pattern, "`${1}$Version`${2}" | Set-Content -Path $Path -Encoding UTF8
     Write-Verbose "Version of Module Manifest '$Path' has been set to '$Version'."
 }
