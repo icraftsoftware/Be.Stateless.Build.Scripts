@@ -1,2 +1,2 @@
-# Be.Stateless.Build.Scripts
-Scripts and resources needed to produce builds of Be.Stateless components
+﻿# Be.Stateless.Build.Scripts
+Scripts and resources needed to build Be.Stateless components.
