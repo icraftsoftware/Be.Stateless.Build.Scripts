@@ -1,6 +1,6 @@
 ﻿#region Copyright & License
 
-# Copyright © 2012 - 2020 François Chabot
+# Copyright © 2012 - 2022 François Chabot
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,18 +19,23 @@
 [CmdletBinding()]
 [OutputType([void])]
 param(
-    [Parameter(Mandatory = $true)]
-    [ValidateScript( { Test-Path -Path $_ -PathType Container } )]
-    [string]
-    $Path
+   [Parameter(Mandatory = $true)]
+   [ValidateScript( { Test-Path -Path $_ -PathType Container } )]
+   [string]
+   $Path
 )
 Set-StrictMode -Version Latest
-. $PSScriptRoot\module-functions.ps1
 
-$Path = Resolve-Path $Path -Verbose -ErrorAction Stop
-$manifest = Get-ModuleManifest -Path $Path -Verbose | Import-PowerShellDataFile
-$manifest.RequiredModules | ForEach-Object -Process {
-    $moduleName = if ($_ -is [hashtable]) { $_.ModuleName } else { $_ }
-    Write-Host "Installing module $moduleName"
-    Install-Module -Name $moduleName -Scope CurrentUser -AllowClobber -SkipPublisherCheck -Force
+Get-ChildItem -Path $Path -Filter *.psd1 -File -Recurse | Import-PowerShellDataFile | ForEach-Object RequiredModules | ForEach-Object -Process {
+   $arguments = @{}
+   if ($_ -is [HashTable]) {
+      $arguments.Name = $_.ModuleName
+      if ($_.ContainsKey('ModuleVersion')) { $arguments.MinimumVersion = $_.ModuleVersion }
+      if ($_.ContainsKey('RequiredVersion')) { $arguments.RequiredVersion = $_.RequiredVersion }
+      if ($_.ContainsKey('MaximumVersion')) { $arguments.MaximumVersion = $_.RequiredVersion }
+   } else {
+      $arguments.Name = $_
+   }
+   Write-Host "Installing PowerShell Module $($arguments.Name)"
+   Install-Module @arguments -Scope CurrentUser -AllowClobber -SkipPublisherCheck -Force
 }
