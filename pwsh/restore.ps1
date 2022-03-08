@@ -25,17 +25,5 @@ param(
    $Path
 )
 Set-StrictMode -Version Latest
-
-Get-ChildItem -Path $Path -Filter *.psd1 -File -Recurse | Import-PowerShellDataFile | ForEach-Object RequiredModules | ForEach-Object -Process {
-   $arguments = @{}
-   if ($_ -is [HashTable]) {
-      $arguments.Name = $_.ModuleName
-      if ($_.ContainsKey('ModuleVersion')) { $arguments.MinimumVersion = $_.ModuleVersion }
-      if ($_.ContainsKey('RequiredVersion')) { $arguments.RequiredVersion = $_.RequiredVersion }
-      if ($_.ContainsKey('MaximumVersion')) { $arguments.MaximumVersion = $_.RequiredVersion }
-   } else {
-      $arguments.Name = $_
-   }
-   Write-Host "Installing PowerShell Module $($arguments.Name)"
-   Install-Module @arguments -Scope CurrentUser -AllowClobber -SkipPublisherCheck -Force
-}
+Import-Module -Name $PSScriptRoot\..\Build.Stateless\Build.Stateless.psd1 -DisableNameChecking -Force
+Get-ModuleManifest -Path $Path -Verbose | Restore-Module -InformationAction Continue

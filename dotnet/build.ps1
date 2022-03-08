@@ -52,11 +52,11 @@ if ($Major -eq 0) {
 }
 $version = New-Object -TypeName System.Version -ArgumentList $Major, $Minor, $Build, $Revision
 
-$requiresMicrosoftBuildEngine = Get-ChildItem -Path .\src -Filter *.btproj -Recurse | Test-Any
+$requiresMicrosoftBuildEngine = [bool](Get-ChildItem -Path .\src -Filter *.btproj -Recurse)
 if (-not $requiresMicrosoftBuildEngine) {
-   $requiresMicrosoftBuildEngine = Get-ChildItem -Path .\src -Filter *.csproj -Recurse |
-      ForEach-Object -Process { dotnet list $_.FullName package | Out-String -Stream | Select-Object -Skip 1 } |
-      Select-String -SimpleMatch BizTalk.Server.2020.Build | Test-Any
+   $requiresMicrosoftBuildEngine = [bool](Get-ChildItem -Path .\src -Filter *.csproj -Recurse |
+         ForEach-Object -Process { dotnet list $_.FullName package | Out-String -Stream | Select-Object -Skip 1 } |
+         Select-String -SimpleMatch BizTalk.Server.2020.Build)
 }
 
 # build and package solution
