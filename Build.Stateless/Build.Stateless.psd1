@@ -43,7 +43,7 @@
    VariablesToExport     = @()
    PrivateData           = @{
       PSData = @{
-         Tags                       = @('be.stateless.be', 'icraftsoftware', 'DevOps', 'Build', 'Pipelines')
+         Tags                       = @('be.stateless', 'icraftsoftware', 'DevOps', 'Build', 'Pipelines')
          LicenseUri                 = 'https://github.com/icraftsoftware/Be.Stateless.Build.Scripts/blob/master/LICENSE'
          ProjectUri                 = 'https://github.com/icraftsoftware/Be.Stateless.Build.Scripts'
          ExternalModuleDependencies = @()

@@ -38,19 +38,22 @@ Set-StrictMode -Version Latest
 Import-Module -Name $PSScriptRoot\..\Build.Stateless\Build.Stateless.psd1 -DisableNameChecking -Force
 if ($Repository -ne 'PSGallery') {
    $arguments = @{
-      Name               = $Repository
+      Name               = "$Repository.PSRepository" # add a suffix not to clash with the eponymous PackageSource present in nuget.config
       SourceLocation     = "https://pkgs.dev.azure.com/icraftsoftware/be.stateless/_packaging/$Repository/nuget/v2"
-      PublishLocation    = "https://pkgs.dev.azure.com/icraftsoftware/be.stateless/_packaging/$Repository/nuget/v2"
       InstallationPolicy = 'Trusted'
       Credential         = New-Object -TypeName PSCredential -ArgumentList 'DevOps', (ConvertTo-SecureString $NuGetApiKey -AsPlainText -Force)
    }
-   if (Get-PSRepository | Where-Object Name -EQ $arguments.Name) {
+   $arguments.PublishLocation = $arguments.SourceLocation
+   $Repository = $arguments.Name # overwrite the parameter value for subsequent Publish-Module
+   if (Get-PSRepository | Where-Object Name -EQ $Repository) {
+      Write-Host "Update Registered PSRepository $Repository"
       Set-PSRepository @arguments
    } else {
-      Register-PSRepository @arguments
+      Write-Host "Register PSRepository $Repository"
+      Register-PSRepository @arguments -ErrorAction Ignore
    }
 }
 Get-ModuleManifest -Path $Path -Verbose | ForEach-Object -Process {
-   Write-Host "Publishing PowerShell Module '$($_.BaseName)' to Feed '$Repository'."
+   Write-Host "Publishing PowerShell Module $($_.BaseName) to Feed $Repository."
    Publish-Module -Path $_.DirectoryName -Repository $Repository -NuGetApiKey $NuGetApiKey
 }
